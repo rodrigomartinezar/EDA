@@ -29,23 +29,32 @@ void QUEUE(int n){
 }
 
 int DEQUEUE(){
+    if(first != NULL){
     int n;
     node *tmp=first;
     first = tmp->next;
     n = tmp->n;
     free(tmp);
-    return n;
+    return n;}
+    else
+    return 0;
     
     
 }
 
 void PEEK(){
+    if(first != NULL)
     printf("%i\n", first->n);
+    else
+    printf("Fila vacía\n");
 }
 
 void isEmpty(){
     if(first == NULL){
         printf("Fila vacía\n");
+    }
+    else{
+        printf("Fila no vacía\n");
     }
 }
 
