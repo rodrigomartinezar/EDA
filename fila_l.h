@@ -49,7 +49,7 @@ void PEEK(){
     printf("Fila vacía\n");
 }
 
-void isEmpty(){
+void ISEMPTY(){
     if(first == NULL){
         printf("Fila vacía\n");
     }
