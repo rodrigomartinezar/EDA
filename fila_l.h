@@ -17,10 +17,15 @@ void QUEUE(int n){
     }
     else{
         node* tmp = first;
-        if(tmp->next == NULL){
-            tmp->next=ptrnew;
-        }
-        }
+        while(1>0){
+            if(tmp->next != NULL){
+                tmp = tmp->next;
+            }
+            if(tmp->next == NULL){
+                tmp->next=ptrnew;
+                break;
+            }
+        }}
 }
 
 int DEQUEUE(){
