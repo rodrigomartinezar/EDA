@@ -1,106 +1,99 @@
-#include "stdio.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-//void buscar();
-int main(){
-    int largo;
-    printf("Largo del arreglo: ");
-    scanf(" %i", &largo);
-    int Numeros[largo];
-    int c;
-    int n;
-    int posicion=0;
-    int buscado;
-    int encontrado = 0;
-    int mitad = largo/2;
-    int buscando;
-    do
-    {
-        //imprimir instrucciones
-        printf("\nMENU\n\n"
-                "1.- Ingresar número\n"
-                "2.- Mostrar arreglo\n"
-                "3.- Buscar número\n"
-                "0.- Quit\n");
-        printf("Elija una opción: ");
-        scanf(" %i", &c);
-        
-        switch(c)
-        {
-            case 1: 
-                if(posicion<largo){printf("Numero: ");
-                scanf(" %i", &n);
-                Numeros[posicion] = n;
-                posicion++;
-                }
-                else {printf("\n\nARREGLO LLENO\n");}
-                //ordena arreglo
-                for(int i=0; i<largo; i++){
-                    for (int j=0; j<largo; j++){
-                        if(Numeros[j]> Numeros[i]){
-                            int tmp = Numeros[i];
-                            Numeros[i] = Numeros[j];
-                            Numeros[j]=tmp;
-                        }
-                    }
-                }
-                break;
-            case 2:
-                if(posicion<largo){
-                    printf("\n ARREGLO AUN NO SE LLENA");
-                }
-                else{
-                    printf("\n");
-                for(int i = 0; i<largo; i++){
-                            printf("%i ", Numeros[i]);
-                }}
-                break;
-            case 3:
-                buscando = mitad;
-                printf("Numero a buscar: ");
-                scanf(" %i", &buscado);
-                //busca binaria
-                do{
-                    if(largo == 1){
-                        if(Numeros[0] == buscado){
-                        printf("\nNumero buscado es el unico elemento del arreglo\n");
-                        encontrado++;
-                        }
-                        else{
-                            printf("\nNumero no se encuentra en el arreglo\n");
-                            encontrado++;
-                        }
-                    }
-                    else{
-                    if(Numeros[buscando] == buscado){ 
-                        printf("Numero buscado: %i en posicion: %i\n", buscado, buscando);
-                        encontrado++;}
-                    if(Numeros[buscando]> buscado){
-                        buscando--;
-                        if(buscando == 0){
-                            if(Numeros[buscando] == buscado){
-                                printf("Numero buscado: %i en posicion: %i\n", buscado, buscando);
-                                encontrado++;
-                            }
-                            if(Numeros[buscando] != buscado){
-                                printf("\nEl numero buscado no se encuentra en el arreglo\n");
-                                encontrado++;
-                            }
-                        
-                    }
-                    }
-                    if(Numeros[buscando]<buscado){
-                        buscando++;
-                        if(buscando == largo){
-                        printf("\nEl numero buscado no se encuentra en el arreglo\n");
-                        encontrado++;
-                    }
-                    }
-                   
-                    
-                }}while(encontrado == 0);
-                break;
-        }
-    }
-    while(c != 0);
+void menu();
+int busquedaBinaria(int arr[], int clave, int bajo, int alto);
+void ingresarDatos(int l, int arr[]);
+void bubbleSort(int l, int arr[]);
+void busqueda(int l, int arr[]);
+
+int main() {
+  menu();
 }
 
+void menu(){
+  int largo;
+  int ch;
+  do{
+  printf("Elija el largo del arreglo: ");
+  scanf(" %i", &largo);
+  if(largo<1)
+    printf("Elección inválida\n");
+  }while(largo<1);
+  int numeros[largo];
+  
+  printf("Ingrese los datos en el arreglo ");
+  ingresarDatos(largo, numeros);
+  bubbleSort(largo, numeros);
+  
+  while(1){  
+    printf("\nElija una de las opciones:\n");
+    printf("1.Buscar un numero en el arreglo\n2.Exit\n");
+    printf("Elija (1 o 2):\n");
+    scanf("%d",&ch);
+    switch(ch){
+      case 1: busqueda(largo, numeros);
+              break;
+      case 2: exit(0);
+      default: printf("\nElección invalida, elija del 1-2.");
+    }
+  }
+}
+
+
+void busqueda(int l, int arr[]){ 
+  int llave; //valor a localizar en el arreglo a
+  int resultado; //variable para almacenar la ubicación de la llave o -1
+  
+  printf("Introduzca un numero para buscar en el arreglo: ");
+  scanf("%d", &llave );
+  
+  resultado = busquedaBinaria(arr, llave, 0, (l - 1));
+
+  if (resultado == -1 ) {
+    printf("\n%d no se encuentra en el arreglo\n", llave);
+  } 
+  else {
+   printf( "\n%d se encuentra en el elemento %d del arreglo\n", llave, resultado);
+  } 
+} 
+
+int busquedaBinaria(int arr[], int clave, int bajo, int alto ) {
+    int central = ( bajo + alto ) / 2;
+    if(bajo>alto){
+        return -1;
+    }
+    if(clave == arr[central] ) {
+      return central;
+    }
+
+    if(clave < arr[central] ) {
+        return busquedaBinaria(arr, clave, bajo, central - 1);
+    }
+    if(clave > arr[central] ) {
+        return busquedaBinaria (arr, clave, central + 1, alto);
+    }
+    return 0;  //tiraba error de non-void function
+}    
+
+void ingresarDatos(int l, int arr[]){
+  int i;
+  for (i = 0; i < l; i++ ) {
+    scanf("%i", &arr[i]);
+  }
+  printf("Todos los datos ingresados\n" );
+}
+
+void bubbleSort(int l,int arr[]){
+  int i, j, temp;
+ 
+  for (i = 0 ; i < (l - 1 ); i++){
+    for (j = 0 ; j < l - i - 1; j++){
+      if (arr[j] > arr[j+1]){
+        temp     = arr[j];
+        arr[j]   = arr[j+1];
+        arr[j+1] = temp;
+      }
+    }
+  }
+}
