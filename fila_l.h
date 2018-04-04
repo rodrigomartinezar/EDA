@@ -1,3 +1,6 @@
+//
+// Created by Rodrigo Martínez on 04-04-2018.
+//
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -30,23 +33,23 @@ void QUEUE(int n){
 
 int DEQUEUE(){
     if(first != NULL){
-    int n;
-    node *tmp=first;
-    first = tmp->next;
-    n = tmp->n;
-    free(tmp);
-    return n;}
+        int n;
+        node *tmp=first;
+        first = tmp->next;
+        n = tmp->n;
+        free(tmp);
+        return n;}
     else
-    return 0;
-    
-    
+        return 0;
+
+
 }
 
 void PEEK(){
     if(first != NULL)
-    printf("%i\n", first->n);
+        printf("%i\n", first->n);
     else
-    printf("Fila vacía\n");
+        printf("Fila vacía\n");
 }
 
 void ISEMPTY(){
@@ -57,4 +60,24 @@ void ISEMPTY(){
         printf("Fila no vacía\n");
     }
 }
+
+node* INVERTIR_LISTA(node* first){
+    node* last = first;
+    while(last->next != NULL) {
+        last = last->next;
+    }
+    node* lasttmp = last;
+    while(lasttmp != first){
+        node* tmp = first;
+        while (tmp->next != lasttmp) {
+            tmp = tmp->next;
+        }
+        lasttmp->next = tmp;
+        lasttmp=tmp;
+    }
+    lasttmp->next = NULL;
+    first = last;
+    return first;
+}
+
 
