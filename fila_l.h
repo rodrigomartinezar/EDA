@@ -62,22 +62,33 @@ void ISEMPTY(){
 }
 
 node* INVERTIR_LISTA(node* first){
-    node* last = first;
-    while(last->next != NULL) {
-        last = last->next;
-    }
-    node* lasttmp = last;
-    while(lasttmp != first){
-        node* tmp = first;
-        while (tmp->next != lasttmp) {
-            tmp = tmp->next;
+        node *last = first;
+        while (last->next != NULL) {
+            last = last->next;
         }
-        lasttmp->next = tmp;
-        lasttmp=tmp;
+        node *lasttmp = last;
+        while (lasttmp != first) {
+            node *tmp = first;
+            while (tmp->next != lasttmp) {
+                tmp = tmp->next;
+            }
+            lasttmp->next = tmp;
+            lasttmp = tmp;
+        }
+        lasttmp->next = NULL;
+        first = last;
+        return first;
+}
+
+void MOSTRAR_LISTA(node* first){
+    printf("\nLista: ");
+    node* ptr = first;
+    while (ptr != NULL)
+    {
+        printf("%i ", ptr->n);
+        ptr = ptr->next;
     }
-    lasttmp->next = NULL;
-    first = last;
-    return first;
+    printf("\n\n");
 }
 
 
