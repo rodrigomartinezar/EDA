@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define COUNT 10;
+#include <time.h>
+#define COUNT 5;
 
 typedef struct arbol{
     int n;
@@ -19,17 +20,34 @@ int alturaAB(arbol* root);
 arbol* minValueNode(arbol* node);
 
 int main(){
-    root = insertar(root, 30);
-    insertar(root, 20);
-    insertar(root, 40);
-    insertar(root, 60);
-    insertar(root, 100);
-    insertar(root, 50);
+    root = insertar(root, 5);
+    insertar(root, 3);
+    insertar(root, 7);
+    srand(time(NULL));
+    for(int i = 0; i<4; i++){
+        int n=rand()%10;
+        insertar(root, n);
+    }
+    for(;;){
+        if(alturaAB(root)>5) break;
+        mostrarArbol(root, 0);
+        printf("\nAltura: %d\n", alturaAB(root));
+        printf("\nQue parte del arbol quieres eliminar?\n");
+        int decision;
+        do {
+            scanf("%d", &decision);
+            if(decision==5) printf("\nNo puedes eliminar la raiz!\n");
+        }while(decision == 5);
+        eliminar(root, decision);
+        for(int i=0; i<2; i++){
+            int n=rand()%10;
+            insertar(root, n);
+        }
+        printf("\n\n\n");
+    }
     mostrarArbol(root, 0);
     printf("\nAltura: %d\n", alturaAB(root));
-    eliminar(root, 60);
-    mostrarArbol(root, 0);
-    printf("\nAltura: %d\n", alturaAB(root));
+    printf("\nPerdiste :c\n");
 }
 
 arbol* crearNodo(int n){
