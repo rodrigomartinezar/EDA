@@ -16,6 +16,7 @@ void mostrarArbol(arbol* root, int space);
 arbol* buscar(arbol* root, int n);
 arbol* eliminar(arbol* root, int n);
 int alturaAB(arbol* root);
+arbol* minValueNode(arbol* node);
 
 int main(){
     root = insertar(root, 30);
@@ -23,6 +24,7 @@ int main(){
     insertar(root, 40);
     insertar(root, 60);
     insertar(root, 100);
+    insertar(root, 50);
     mostrarArbol(root, 0);
     printf("\nAltura: %d\n", alturaAB(root));
     eliminar(root, 60);
@@ -89,6 +91,10 @@ arbol* eliminar(arbol* root, int n){
             free(root);
             return tmp;
         }
+
+        arbol* tmp = minValueNode(root->right);
+        root->n = tmp->n;
+        root->right=eliminar(root->right, tmp->n);
     }
     return root;
 }
@@ -110,4 +116,11 @@ int alturaAB(arbol* root)
         else
             return AltDer+1;
     }
+}
+
+arbol* minValueNode(arbol* node){
+    arbol* current = node;
+    while(current->left != NULL)
+        current = current->left;
+    return current;
 }
