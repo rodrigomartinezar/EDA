@@ -16,6 +16,7 @@ typedef struct node
 {
     //campos que tenga el nodo
     int n;
+    int edges;
     //todos sus "nexts"
     edges* firstEdge;
     //next node, no perder ninguno
@@ -28,7 +29,8 @@ int insertUndirectedEdge(int nNode1, int nNode2);
 node* searchNode(int nNode);
 void mostrarGrafo(node* head);
 int importarRed();
-void mostrarVecinos(int nNode);
+int mostrarVecinos(int nNode);
+int nodoPopular();
 
 node* head=NULL;
 
@@ -45,7 +47,16 @@ int main(){
     */
     importarRed();
     mostrarGrafo(head);
-    mostrarVecinos(2);
+    int vecino;
+    int errorVecinos;
+    do {
+        printf("Ingrese el numero del nodo que desea conocer vecinos: ");
+        scanf(" %i",&vecino);
+        errorVecinos=mostrarVecinos(vecino);
+    } while (errorVecinos==1);
+    int popular = nodoPopular();
+    if(popular == -1) printf("No hay nodos creados\n");
+    else printf("\nNodo mas popular: %i\n", popular);
 }
 
 int importarRed(){
@@ -54,7 +65,7 @@ int importarRed(){
     FILE *archivo;
     char dato;
     int lineas=0;
-    archivo = fopen("C:\\projects\\textest\\red.txt", "r" );
+    archivo = fopen("red.txt", "r" );
     if (!archivo)
         return 1;
     for(;;){
@@ -194,7 +205,13 @@ void mostrarGrafo(node* head){
     // Recorriendo la lista
     printf("Lista:\n");
     node* ptrNode = head;
-    edges* ptrEdges=head->firstEdge;
+    edges* ptrEdges=NULL;
+    if(ptrNode!=NULL) {
+        ptrEdges = head->firstEdge;
+    }
+    else{
+        printf("Vacia\n");
+    }
     while (ptrNode != NULL)
     {
         printf("%i-> ", ptrNode->n);
@@ -210,12 +227,42 @@ void mostrarGrafo(node* head){
     printf("\n\n");
 }
 
-void mostrarVecinos(int nNode){
-    node* ptrNode= searchNode(nNode);
-    edges* ptrEdges=ptrNode->firstEdge;
-    printf("Vecinos:\n");
-    while(ptrEdges != NULL){
+int mostrarVecinos(int nNode) {
+    node *ptrNode = searchNode(nNode);
+    if(ptrNode==NULL){
+        printf("No existe tal nodo\n");
+        return 1;
+    }
+    edges *ptrEdges = ptrNode->firstEdge;
+    printf("Vecinos de %i:\n",nNode);
+    while (ptrEdges != NULL) {
         printf("%i ", ptrEdges->nextNode->n);
-        ptrEdges=ptrEdges->nextEdge;
+        ptrEdges = ptrEdges->nextEdge;
+    }
+    return 0;
+}
+
+int nodoPopular(){
+    if(head!=NULL) {
+        node *ptrNode = head;
+        int popular = head->n;
+        int max_edges=0;
+        while(ptrNode!=NULL){
+            int edge_counter=0;
+            edges* ptrEdges = ptrNode->firstEdge;
+            while(ptrEdges!=NULL){
+                edge_counter++;
+                ptrEdges=ptrEdges->nextEdge;
+            }
+            if(edge_counter>max_edges){
+                max_edges = edge_counter;
+                popular = ptrNode->n;
+            }
+            ptrNode=ptrNode->nextNode;
+        }
+        return popular;
+    }
+    else{
+        return -1;
     }
 }
