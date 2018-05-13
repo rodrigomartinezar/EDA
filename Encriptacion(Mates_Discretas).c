@@ -13,7 +13,7 @@ int main() {
 void menu(){
     int ch;
     do {
-        printf("\nMENU:\n\n1.- ENCRYPT\n2.-DENCRYPT\n0.-EXIT\n");
+        printf("\nMENU:\n\n1.-ENCRYPT\n2.-DENCRYPT\n0.-EXIT\n");
         printf("\nChoose an option: ");
         scanf(" %d",&ch);
         switch(ch){
@@ -74,7 +74,7 @@ void encrypt(){
         encrypted[z]=(char)new_text[z];
     }
     int j=0;
-    while(j<(strlen(encrypted))){
+    while(j<(strlen(text))){
         if((int)encrypted[j]==32){
             printf("");
             j++;
@@ -107,21 +107,23 @@ void decrypt(){
     int key;
     printf("\nType shift value: ");
     scanf(" %d", &key);
-    for(int i =0; i<strlen(text); i++){
-        printf("\nText: %d", old_text[i]);
-        old_text[i]=old_text[i]-key;
-        printf("+ %d = %d", key, old_text[i]);
-        if(old_text[i]<65) old_text[i]=old_text[i]+26;
-        if(old_text[i]>90) old_text[i]=old_text[i]-26;
-        printf("%d\n", old_text[i]);
+    for(int j =0; j<strlen(text); j++){
+        printf("\nText: %d", old_text[j]);
+        old_text[j]=old_text[j]-key;
+        printf("+ %d = %d", key, old_text[j]);
+        if(old_text[j]<65) old_text[j]=old_text[j]+26;
+        if(old_text[j]>90) old_text[j]=old_text[j]-26;
+        printf("%c\n", (char)old_text[j]);
     }
     char decrypted[MAX_STRING_LEN];
-    for(int i=0; i<strlen(text); i++){
-        decrypted[i]=(char)old_text[i];
+    for(int z=0; z<strlen(text); z++){
+        decrypted[z]=(char)old_text[z];
     }
+    printf("%d %c\n", old_text[5], (char)old_text[5]);
+    printf("%d %c\n", old_text[6],(char)old_text[6]);
     decrypted[strlen(decrypted)]='\0';
     printf("\nDecrypted text:\n");
-    for(int i=0; i<strlen(decrypted); i++){
-        printf("%c", decrypted[i]);
+    for(int s=0; s<strlen(text); s++){
+        printf("%c", decrypted[s]);
     }
 }
