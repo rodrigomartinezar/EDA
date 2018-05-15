@@ -49,11 +49,13 @@ int main(){
     mostrarGrafo(head);
     int vecino;
     int errorVecinos;
-    do {
-        printf("Ingrese el numero del nodo que desea conocer vecinos: ");
-        scanf(" %i",&vecino);
-        errorVecinos=mostrarVecinos(vecino);
-    } while (errorVecinos==1);
+    if(head!= NULL) {
+        do {
+            printf("Ingrese el numero del nodo que desea conocer vecinos: ");
+            scanf(" %i", &vecino);
+            errorVecinos = mostrarVecinos(vecino);
+        } while (errorVecinos == 1);
+    }
     nodoPopular();
 }
 
