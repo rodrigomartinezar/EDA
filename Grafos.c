@@ -30,7 +30,7 @@ node* searchNode(int nNode);
 void mostrarGrafo(node* head);
 int importarRed();
 int mostrarVecinos(int nNode);
-int nodoPopular();
+void nodoPopular();
 
 node* head=NULL;
 
@@ -54,9 +54,7 @@ int main(){
         scanf(" %i",&vecino);
         errorVecinos=mostrarVecinos(vecino);
     } while (errorVecinos==1);
-    int popular = nodoPopular();
-    if(popular == -1) printf("No hay nodos creados\n");
-    else printf("\nNodo mas popular: %i\n", popular);
+    nodoPopular();
 }
 
 int importarRed(){
@@ -242,10 +240,10 @@ int mostrarVecinos(int nNode) {
     return 0;
 }
 
-int nodoPopular(){
+void nodoPopular(){
     if(head!=NULL) {
         node *ptrNode = head;
-        int popular = head->n;
+        int nodos_max=0;
         int max_edges=0;
         while(ptrNode!=NULL){
             int edge_counter=0;
@@ -255,14 +253,38 @@ int nodoPopular(){
                 ptrEdges=ptrEdges->nextEdge;
             }
             if(edge_counter>max_edges){
-                max_edges = edge_counter;
-                popular = ptrNode->n;
+                nodos_max=0;            //reinicia si se encuentra nuevo max
+                nodos_max++;            //para saber cuantos nodos con el max de edges hay
+                max_edges = edge_counter;   //actualiza cantidad max de edges
+            }
+            else
+                if(edge_counter==max_edges){
+                    nodos_max++;        //caso igual solo se suma
+                }
+            ptrNode=ptrNode->nextNode;
+        }
+        int populares[nodos_max];
+        ptrNode = head;
+        int z=0;
+        while(ptrNode!=NULL){
+            int edge_counter=0;
+            edges* ptrEdges=ptrNode->firstEdge; //recorro nuevamente el grafo para agregar al arreglo tamaño nodos_max los nodos correspondientes
+            while(ptrEdges!=NULL){
+                edge_counter++;
+                ptrEdges=ptrEdges->nextEdge;
+            }
+            if(edge_counter==max_edges){
+                populares[z]=ptrNode->n;
+                z++;
             }
             ptrNode=ptrNode->nextNode;
         }
-        return popular;
+        printf("\nPopular(es): ");
+        for(int h=0; h<nodos_max; h++){
+            printf("%d ", populares[h]);
+        }
     }
     else{
-        return -1;
+        printf("\nNo hay nodos creados\n");
     }
 }
