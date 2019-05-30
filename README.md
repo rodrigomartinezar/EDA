@@ -1,3 +1,3 @@
-# EDA
-Repositorio EDA Semestre 5 UAI - 2018 Primer Semestre
-Todos los programas creados en el ramo Estructura de Datos y Algoritmos de la UAI.
+# Estructuras de Datos 2018 - Semestre 1
+Repositorio utilizado en el curso "Estructura de Datos y Algoritmos" de la Universidad Adolfo Ibáñez - Viña del Mar
+Profesora: Alejandra Beghelli
